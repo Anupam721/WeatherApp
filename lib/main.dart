@@ -16,6 +16,29 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    var months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
+    var weeks = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday'
+    ];
     return MaterialApp(
       home: Scaffold(
           body: Container(
@@ -27,8 +50,8 @@ class MyAppState extends State<MyApp> {
             future: getData(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                DateTime date =
-                    DateTime.fromMicrosecondsSinceEpoch(snapshot.data!.dt);
+                DateTime date = DateTime.fromMillisecondsSinceEpoch(
+                    snapshot.data!.dt * 1000);
 
                 return Center(
                   child: Column(
@@ -46,14 +69,14 @@ class MyAppState extends State<MyApp> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "${date.year},",
+                            "${weeks[date.weekday - 1]}, ",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 25,
                             ),
                           ),
                           Text(
-                            '${date.month} ${date.day}',
+                            '${months[date.month - 1]} ${date.day}',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 25,
@@ -62,7 +85,7 @@ class MyAppState extends State<MyApp> {
                         ],
                       ),
                       Text(
-                        '${snapshot.data?.main.temp} °C',
+                        '${snapshot.data?.main.temp.toInt()}°C',
                         style: TextStyle(color: Colors.white, fontSize: 70),
                       )
                     ],
